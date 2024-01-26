@@ -1,5 +1,7 @@
 from app.letterboxd_scraper import LetterboxdScraper
 
+LetterboxdScraperTestInstance = LetterboxdScraper()
+
 def test_get_user_reviews():
     ratings = LetterboxdScraper.get_user_reviews(username='Prowe')
     # Below assertions work for this test because I know that these films are rated on different
@@ -24,3 +26,6 @@ def test_get_user_followers():
         'bethanyrosetta',
         'bbcparliament'
     ]
+
+def test_get_user_and_followers_reviews():
+    test = LetterboxdScraperTestInstance.get_user_and_followers_reviews(username='PRowe')

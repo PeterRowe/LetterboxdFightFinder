@@ -9,7 +9,7 @@ class LetterboxdScraper():
     """
     Class for collecting methods that scrape data from Letterboxd
     """
-    def get_user_reviews(username: str) -> dict[str, float]:
+    def _get_user_reviews(self, username: str) -> dict[str, float]:
         """
         Scrapes the film ratings from the inputted usernames pages on letterboxd
         :param username: The username of the letterboxd user you want to collect ratings from
@@ -32,10 +32,11 @@ class LetterboxdScraper():
                     else None
                 )
             
-        ratings = pd.DataFrame.from_dict(data=ratings, orient='index', columns=['rating'])
+        ratings = pd.DataFrame.from_dict(data=ratings, orient='index', columns=[f"{username}'s ratings"])
         return ratings
     
-    def get_user_followers(username: str) -> list[str]:
+    
+    def _get_user_followers(self, username: str) -> list[str]:
         """
         Scrapes the inputted username's followers from Letterboxd
         :param username: The username of the letterboxd user you want to collect followers from
@@ -55,3 +56,11 @@ class LetterboxdScraper():
             followers = followers + new_followers
 
         return followers
+    
+    def get_user_and_followers_reviews(self, username: str) -> pd.DataFrame:
+        followers = self._get_user_followers(username=username)
+        user_ratings = self._get_user_reviews(username=username)
+        for follower in followers:
+            follower_ratings = self._get_user_reviews(username=follower)
+            user_ratings=user_ratings.join(follower_ratings, how='left')
+

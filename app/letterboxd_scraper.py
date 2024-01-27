@@ -1,6 +1,7 @@
 import pandas as pd
 from urllib.request import urlopen, Request
 from bs4 import BeautifulSoup
+from functools import cache
 
 HEADERS={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36'} #Hehe sneaky, I'll change this when I get the API
 
@@ -9,6 +10,7 @@ class LetterboxdScraper():
     """
     Class for collecting methods that scrape data from Letterboxd
     """
+    @cache
     def _get_user_reviews(self, username: str) -> dict[str, float]:
         """
         Scrapes the film ratings from the inputted usernames pages on letterboxd
@@ -38,7 +40,7 @@ class LetterboxdScraper():
         ratings = pd.DataFrame.from_dict(data=ratings, orient='index', columns=[f"{username}'s ratings"])
         return ratings
     
-    
+    @cache
     def _get_user_followers(self, username: str) -> list[str]:
         """
         Scrapes the inputted username's followers from Letterboxd

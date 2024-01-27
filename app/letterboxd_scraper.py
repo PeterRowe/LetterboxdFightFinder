@@ -28,7 +28,10 @@ class LetterboxdScraper():
             for film_and_rating in page_ratings:
                 ratings[film_and_rating.contents[1]['data-film-slug']] = (
                     float(film_and_rating.contents[3].contents[1]['class'][3].split('-')[1])/2
-                    if len(film_and_rating.contents[3].contents) > 1
+                    if (len(film_and_rating.contents[3].contents) > 1 and
+                        film_and_rating.contents[3].contents[1]['class'][3].startswith('rated'))
+                        # If statement filters out films that are logged and neither liked or rated and
+                        # films that are liked but not rated
                     else None
                 )
             
@@ -58,9 +61,17 @@ class LetterboxdScraper():
         return followers
     
     def get_user_and_followers_reviews(self, username: str) -> pd.DataFrame:
+        """
+        Finds the username's ratings and places them in the left most column of the resulting dataframe. Followers
+        ratings that have been rated by the user are then placed in subsequent columns under the column name 
+        {username}'s ratings. Films that the user has rated but the follower hasn't are given a score of 0
+        :param username: the letterboxd username
+        :returns: A datafram containing the usernames ratings and followers ratings of those films
+        """
         followers = self._get_user_followers(username=username)
         user_ratings = self._get_user_reviews(username=username)
         for follower in followers:
             follower_ratings = self._get_user_reviews(username=follower)
-            user_ratings=user_ratings.join(follower_ratings, how='left')
+            user_ratings=user_ratings.join(follower_ratings, how='left')#.fillna(Nan)
+        return user_ratings
 

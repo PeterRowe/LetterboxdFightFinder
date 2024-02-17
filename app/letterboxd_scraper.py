@@ -37,7 +37,7 @@ class LetterboxdScraper():
                     else None
                 )
             
-        ratings = pd.DataFrame.from_dict(data=ratings, orient='index', columns=[f"{username}'s ratings"])
+        ratings = pd.DataFrame.from_dict(data=ratings, orient='index', columns=[username])
         return ratings
     
     @cache

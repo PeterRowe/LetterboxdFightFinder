@@ -14,7 +14,7 @@ templates = Jinja2Templates(directory="templates")
 @app.get('/top-five-differences/', response_class=HTMLResponse)
 def get_top_five_differences(request: Request, username: str):
     ratings = letterboxd_scraper.get_user_and_followers_reviews(username=username)
-    differences = ratings_analytics.get_differences_in_ratings(ratings)
+    differences = ratings_analytics.get_differences_in_ratings(ratings).iloc[0:5]
     return templates.TemplateResponse(
         "results.html",
         {"request": request, "results": differences}

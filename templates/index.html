@@ -59,9 +59,10 @@
             align-items: center;
             height: 10%;
             width: 50%;
+            min-width: 330px;
         }
         .result-text {
-            font-size: 20px;
+            font-size: 2.0vh;
             padding: 20px;
         }
         .film-title {
@@ -82,6 +83,7 @@
             <h1>Letterboxd Fight Finder</h1>
         </div>
         <div style="height:100%;display:flex;flex-direction:column;align-items:center;">
+            <div id="input-divs" style="display:flex;flex-direction:column;align-items:center;">
             <input style="width:130px;"
                 name="username"
                 placeholder="Username"
@@ -90,15 +92,16 @@
                 hx-trigger="keyup[keyCode==13]" 
                 hx-swap="outerHTML"
                 hx-indicator="#spinner"
+                hx-target="#input-divs"
                 >
             </input>
             <img id="spinner" class="htmx-indicator" src="static/oval.svg">
+            <footer>
+                This application uses TMDB and the TMDB APIs but is not endorsed, certified, or otherwise approved by TMDB.
+            </footer>
+            </div>
         </div>
     </div>
-
-    <footer>
-        This application uses TMDB and the TMDB APIs but is not endorsed, certified, or otherwise approved by TMDB.
-    </footer>
 </body>
 
 </html>

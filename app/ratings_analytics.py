@@ -24,5 +24,5 @@ class RatingsAnalytics():
             mutual_differences["User Rating"] = ratings_dataframe[ratings_dataframe.columns[0]].array
             all_mutuals_differences = pd.concat([all_mutuals_differences, mutual_differences])
 
-        all_mutuals_differences = all_mutuals_differences.sort_values(by="Rating difference", ascending=False)
+        all_mutuals_differences = all_mutuals_differences.sort_values(by=["Rating difference", "Mutual"], ascending=[False, True])
         return all_mutuals_differences

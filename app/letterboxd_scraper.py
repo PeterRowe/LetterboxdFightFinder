@@ -2,6 +2,7 @@ import pandas as pd
 from urllib.request import urlopen, Request
 from bs4 import BeautifulSoup
 from functools import cache
+from multiprocessing import Pool
 
 HEADERS={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36'} #Hehe sneaky, I'll change this when I get the API
 
@@ -89,8 +90,8 @@ class LetterboxdScraper():
         """
         mutuals = self._get_user_mutuals(username=username)
         user_ratings = self._get_user_reviews(username=username)
-        for mutual in mutuals:
-            mutual = self._get_user_reviews(username=mutual)
-            user_ratings=user_ratings.join(mutual, how='left')
+        with Pool() as p:
+            mutual_ratings = p.map(self._get_user_reviews, mutuals)
+        user_ratings=user_ratings.join(mutual_ratings, how='left')
         return user_ratings
 

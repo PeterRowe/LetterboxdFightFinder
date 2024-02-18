@@ -41,11 +41,11 @@ class LetterboxdScraper():
         return ratings
     
     @cache
-    def _get_user_followers(self, username: str) -> list[str]:
+    def _get_user_mutuals(self, username: str) -> list[str]:
         """
-        Scrapes the inputted username's followers from Letterboxd
-        :param username: The username of the letterboxd user you want to collect followers from
-        :return: The inputted users followers in a list"""
+        Scrapes the inputted username's mutuals from Letterboxd
+        :param username: The username of the letterboxd user you want to collect mutuals from
+        :return: The inputted users mutuals in a list"""
         followers = []
         page_number = 0
         while True:
@@ -60,20 +60,37 @@ class LetterboxdScraper():
                 break
             followers = followers + new_followers
 
-        return followers
+        following = []
+        page_number = 0
+        while True:
+            page_number+=1
+            response = urlopen(Request(headers=HEADERS, url=f'https://letterboxd.com/{username}/following/page/{page_number}')).read().decode("utf-8")
+            soup = BeautifulSoup(response)
+            new_following = [
+                person_summary.contents[1]["href"][1:-1]
+                for person_summary in soup.find_all("div", {"class": "person-summary"})
+            ]
+            if len(new_following) == 0:
+                break
+            following = following + new_following
+
+        # The list of mutuals is sorted alphabetically for consistency. This ensures that if there are multiple reviews tied for fifth place
+        # the same review is chosen every time.
+        mutuals = sorted(list(set(followers) & set(following)))
+        return mutuals
     
-    def get_user_and_followers_reviews(self, username: str) -> pd.DataFrame:
+    def get_user_and_mutuals_reviews(self, username: str) -> pd.DataFrame:
         """
-        Finds the username's ratings and places them in the left most column of the resulting dataframe. Followers
+        Finds the username's ratings and places them in the left most column of the resulting dataframe. Mutuals
         ratings that have been rated by the user are then placed in subsequent columns under the column name 
-        {username}'s ratings. Films that the user has rated but the follower hasn't are given a score of 0
+        {username}'s ratings. Films that the user has rated but the mutual hasn't are given a score of 0
         :param username: the letterboxd username
-        :returns: A datafram containing the usernames ratings and followers ratings of those films
+        :returns: A dataframe containing the usernames ratings and mutuals ratings of those films
         """
-        followers = self._get_user_followers(username=username)
+        mutuals = self._get_user_mutuals(username=username)
         user_ratings = self._get_user_reviews(username=username)
-        for follower in followers:
-            follower_ratings = self._get_user_reviews(username=follower)
-            user_ratings=user_ratings.join(follower_ratings, how='left')#.fillna(Nan)
+        for mutual in mutuals:
+            mutual = self._get_user_reviews(username=mutual)
+            user_ratings=user_ratings.join(mutual, how='left')
         return user_ratings
 

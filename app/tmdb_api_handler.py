@@ -20,6 +20,9 @@ class TMDBAPIHandler:
         :returns: A list of urls of posters on TMDB in the same order as the passed in list"""
         poster_urls = []
         for film in films:
+            # Letterboxd and TMDB sometimes disagree on year, so they're curring cut off. This means sometimes the wrong
+            # film might be selected if there are multiples of the same name, but this is a rarer occurance than disagreements.
+            film = film[:-5] if film[-4:].isdigit() else film
             search_response = json.loads(requests.get(TMDB_URL+"/search/movie", params={"query": film}, headers=HEADERS).text)
             film_id = search_response["results"][0]['id']
             poster_response = json.loads(requests.get(TMDB_URL+"/movie/"+str(film_id)+"/images", headers=HEADERS).text)

@@ -57,10 +57,11 @@
             padding: 20px;
             display: flex;
             align-items: center;
-            height: 200px
+            height: 10%;
+            width: 50%;
         }
         .result-text {
-            font-size: 30px;
+            font-size: 20px;
             padding: 20px;
         }
         .film-title {
@@ -69,7 +70,10 @@
         }
         .htmx-indicator {
             padding: 15px;
-            height: 20px
+            height: 20px;
+        }
+        .result-poster {
+            height: 100%;
         }
 
     </style>
@@ -77,9 +81,10 @@
         <div class="header">
             <h1>Letterboxd Fight Finder</h1>
         </div>
-        <div>
-            <input 
+        <div style="height:100%;display:flex;flex-direction:column;align-items:center;">
+            <input style="width:130px;"
                 name="username"
+                placeholder="Username"
                 hx-get="/top-five-differences/"
                 hx-include="[username='username']"
                 hx-trigger="keyup[keyCode==13]" 
@@ -87,8 +92,8 @@
                 hx-indicator="#spinner"
                 >
             </input>
+            <img id="spinner" class="htmx-indicator" src="static/oval.svg">
         </div>
-        <img id="spinner" class="htmx-indicator" src="static/oval.svg">
     </div>
 
     <footer>

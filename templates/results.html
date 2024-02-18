@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<div class="result">
+    <img src={{ poster_urls[0] }}, style="height:100%">
+    <div class="result-text">
+        <div class="film-title">
+            {{ differences.iloc[0]["Film"].replace("-", " ").title() }}
+        </div>
+        <div>
+            You gave it {{ differences.iloc[0]["User Rating"] }}. {{ differences.iloc[0]["Mutual"] }} gave it {{ differences.iloc[0]["Mutual Rating"] }}
+        </div>
+    </div>
+</div>
+
+<div class="result">
+    <img src={{ poster_urls[1] }}, style="height:100%">
+    <div class="result-text">
+        <div class="film-title">
+            {{ differences.iloc[1]["Film"].replace("-", " ").title() }}
+        </div>
+        <div>
+            You gave it {{ differences.iloc[1]["User Rating"] }}. {{ differences.iloc[1]["Mutual"] }} gave it {{ differences.iloc[1]["Mutual Rating"] }}
+        </div>
+    </div>
+</div>
+
+<div class="result">
+    <img src={{ poster_urls[2] }}, style="height:100%">
+    <div class="result-text">
+        <div class="film-title">
+            {{ differences.iloc[2]["Film"].replace("-", " ").title() }}
+        </div>
+        <div>
+            You gave it {{ differences.iloc[2]["User Rating"] }}. {{ differences.iloc[2]["Mutual"] }} gave it {{ differences.iloc[2]["Mutual Rating"] }}
+        </div>
+    </div>
+</div>
+
+<div class="result">
+    <img src={{ poster_urls[3] }}, style="height:100%">
+    <div class="result-text">
+        <div class="film-title">
+            {{ differences.iloc[3]["Film"].replace("-", " ").title() }}
+        </div>
+        <div>
+            You gave it {{ differences.iloc[3]["User Rating"] }}. {{ differences.iloc[3]["Mutual"] }} gave it {{ differences.iloc[3]["Mutual Rating"] }}
+        </div>
+    </div>
+</div>
+
+<div class="result">
+    <img src={{ poster_urls[4] }}, style="height:100%">
+    <div class="result-text">
+        <div class="film-title">
+            {{ differences.iloc[4]["Film"].replace("-", " ").title() }}
+        </div>
+        <div>
+            You gave it {{ differences.iloc[4]["User Rating"] }}. {{ differences.iloc[4]["Mutual"] }} gave it {{ differences.iloc[4]["Mutual Rating"] }}
+        </div>
+    </div>
+</div>

@@ -19,7 +19,7 @@ templates = Jinja2Templates(directory="templates")
 
 @app.get('/top-five-differences/', response_class=HTMLResponse)
 def get_top_five_differences(request: Request, username: str):
-    ratings = letterboxd_scraper.get_user_and_mutuals_reviews(username=username)
+    ratings = letterboxd_scraper.get_user_and_mutuals_ratings(username=username)
     differences = ratings_analytics.get_differences_in_ratings(ratings).iloc[0:5]
     poster_urls = tmdb_api_handler.get_film_posters(differences["Film"])
     for row_number in range(5):

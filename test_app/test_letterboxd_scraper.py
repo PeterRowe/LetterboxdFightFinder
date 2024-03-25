@@ -3,7 +3,7 @@ from app.letterboxd_scraper import LetterboxdScraper
 LetterboxdScraperTestInstance = LetterboxdScraper()
 
 def test_get_user_reviews():
-    ratings = LetterboxdScraperTestInstance._get_user_reviews(username='Prowe')
+    ratings = LetterboxdScraperTestInstance._get_user_ratings(username='Prowe')
     # Below assertions work for this test because I know that these films are rated on different
     # webpages and the ratings are correct
     assert ratings.loc['poison-2023']['rating'] == 4.0
@@ -27,5 +27,8 @@ def test_get_user_mutuals():
         'postboxqueen420'
     ]
 
-def test_get_user_and_mutuals_reviews():
-    test = LetterboxdScraperTestInstance.get_user_and_mutuals_reviews(username='PRowe')
+def test_get_user_and_mutuals_ratings():
+    test = LetterboxdScraperTestInstance.get_user_and_mutuals_ratings(username='PRowe')
+
+def test_get_user_and_community_ratings():
+    test = LetterboxdScraperTestInstance.get_user_and_community_ratings(username="PRowe")

@@ -69,11 +69,14 @@
         .result-text {
             font-size: 2.0vh;
             padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
         .result {
             display: flex;
             flex-direction: row;
-            height: 185px;
+            height: 150px;
             padding: 10px;
         }
         .film-title {
@@ -113,24 +116,32 @@
         <div class="header">
             <h1>Letterboxd Fight Finder</h1>
         </div>
-        <div style="height:100%;display:flex;flex-direction:column;align-items:center;">
+        <div 
+            style="height:100%;display:flex;flex-direction:column;align-items:center;"
+            hx-include="[name='username']"
+            >
             <div id="input-divs" style="display:flex;flex-direction:column;align-items:center;">
-            <input style="width:130px;"
-                name="username"
-                placeholder="Username"
-                hx-get="/top-five-differences/"
-                hx-include="[username='username']"
-                hx-trigger="keyup[keyCode==13]" 
-                hx-swap="outerHTML"
-                hx-indicator="#spinner"
-                hx-target="#input-divs"
-                >
-            </input>
-            <img id="spinner" class="htmx-indicator" src="static/oval.svg">
+                <input style="width:130px;"
+                    name="username"
+                    placeholder="Username"
+                    hx-get="/top-five-mutuals-differences/"
+                    hx-trigger="keyup[keyCode==13]" 
+                    hx-swap="outerHTML"
+                    hx-indicator="#spinner"
+                    hx-target="#input-divs"
+                    >
+                </input>
+                <img id="spinner" class="htmx-indicator" src="static/oval.svg">
+            </div>
+            <div
+                    hx-get="/top-five-community-differences/"
+                    hx-trigger="keyup[keyCode==13] from:input"
+                    hx-swap="outerHTML"
+                    >
+                </div>
             <footer>
                 This application uses TMDB and the TMDB APIs but is not endorsed, certified, or otherwise approved by TMDB.
             </footer>
-            </div>
         </div>
     </div>
 </body>

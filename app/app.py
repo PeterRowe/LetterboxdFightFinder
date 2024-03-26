@@ -17,8 +17,8 @@ tmdb_api_handler = TMDBAPIHandler()
 
 templates = Jinja2Templates(directory="templates")
 
-@app.get('/top-five-differences/', response_class=HTMLResponse)
-def get_top_five_differences(request: Request, username: str):
+@app.get('/top-five-mutuals-differences/', response_class=HTMLResponse)
+def get_top_five_mutuals_differences(request: Request, username: str):
 
     #User and mutual differences
     user_and_mutual_ratings = letterboxd_scraper.get_user_and_mutuals_ratings(username=username)
@@ -38,6 +38,18 @@ def get_top_five_differences(request: Request, username: str):
                                       user_and_mutual_differences.iloc[row_number]["User Rating"]) else star_rating + "½"
         user_and_mutual_differences.iat[row_number, 4] = star_rating
 
+        return templates.TemplateResponse(
+        "mutuals_results.html",
+        {
+            "request": request, 
+            "user_and_mutual_differences": user_and_mutual_differences,
+            "user_and_mutual_differences_poster_urls": user_and_mutual_differences_poster_urls
+        }
+    )
+
+@app.get('/top-five-community-differences/', response_class=HTMLResponse)
+def get_top_five_community_differences(request: Request, username: str): 
+    
     #User and community differences
         
     #TODO: convert user ratings to star
@@ -46,11 +58,9 @@ def get_top_five_differences(request: Request, username: str):
     user_and_community_differences_poster_urls = tmdb_api_handler.get_film_posters(user_and_community_differences["Film"])
         
     return templates.TemplateResponse(
-        "results.html",
+        "community_results.html",
         {
-            "request": request, 
-            "user_and_mutual_differences": user_and_mutual_differences,
-            "user_and_mutual_differences_poster_urls": user_and_mutual_differences_poster_urls,
+            "request": request,
             "user_and_community_differences": user_and_community_differences,
             "user_and_community_differences_poster_urls": user_and_community_differences_poster_urls
         }

@@ -29,13 +29,13 @@ class LetterboxdScraper():
             if len(page_ratings) == 0:
                 break
             for film_and_rating in page_ratings:
-                ratings[film_and_rating.contents[1]['data-film-slug']] = (
-                    float(film_and_rating.contents[3].contents[1]['class'][3].split('-')[1])/2
-                    if (len(film_and_rating.contents[3].contents) > 1 and
-                        film_and_rating.contents[3].contents[1]['class'][3].startswith('rated'))
-                        # If statement filters out films that are logged and neither liked or rated and
-                        # films that are liked but not rated
-                    else None
+                # If statement filters out films that are logged and neither liked or rated and
+                # films that are liked but not rated
+                if (len(film_and_rating.contents[3].contents) > 1 and
+                        film_and_rating.contents[3].contents[1]['class'][3].startswith('rated')):
+                    ratings[film_and_rating.contents[1]['data-film-slug']] = (
+                        float(film_and_rating.contents[3].contents[1]['class'][3].split('-')[1])/2
+                    
                 )
             
         ratings = pd.DataFrame.from_dict(data=ratings, orient='index', columns=[username])
@@ -75,7 +75,7 @@ class LetterboxdScraper():
                 break
             following = following + new_following
 
-        # The list of mutuals is sorted alphabetically for consistency. This ensures that if there are multiple reviews tied for fifth place
+        # The list of mutuals is sorted alphabetically for consistency. This ensures that if there are multiple ratings tied for fifth place
         # the same review is chosen every time.
         mutuals = sorted(list(set(followers) & set(following)))
         return mutuals
@@ -120,7 +120,7 @@ class LetterboxdScraper():
         mutuals = self._get_user_mutuals(username=username)
         user_ratings = self._get_user_ratings(username=username)
         with Pool() as p:
-            mutual_ratings = p.map(self._get_user_reviews, mutuals)
+            mutual_ratings = p.map(self._get_user_ratings, mutuals)
         user_ratings=user_ratings.join(mutual_ratings, how='left')
         return user_ratings
     

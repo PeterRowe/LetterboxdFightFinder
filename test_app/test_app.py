@@ -11,3 +11,6 @@ def test_get_top_five_differences_endpoint():
     # This will break if someone posts a top five terrible take. 
     # Hopefully that's a rare occurrence.
     assert response.text == EXPECTED_TOP_FIVE_DIFFERENCES_ENDPOINT_RESPONSE
+
+def test_get_top_five_community_differences():
+    response = client.get("/top-five-community-differences", params={"username": "prowe"})

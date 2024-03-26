@@ -2,7 +2,7 @@ from app.letterboxd_scraper import LetterboxdScraper
 
 LetterboxdScraperTestInstance = LetterboxdScraper()
 
-def test_get_user_reviews():
+def test_get_user_ratings():
     ratings = LetterboxdScraperTestInstance._get_user_ratings(username='Prowe')
     # Below assertions work for this test because I know that these films are rated on different
     # webpages and the ratings are correct

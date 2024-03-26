@@ -47,7 +47,7 @@
             left: 0; 
             width: 100%;
         }
-        .result {
+        .result-category {
             border-radius: 15px;
             background-color: #2c3440;
             text-align: left;
@@ -57,13 +57,24 @@
             padding: 20px;
             display: flex;
             align-items: center;
-            height: 10%;
-            width: 50%;
+            height: 40%;
+            width: 40%;
             min-width: 330px;
+            display: flex;
+            flex-direction: column;
+            overflow: scroll;
+            overflow-x: hidden;
+            align-items: flex-start;
         }
         .result-text {
             font-size: 2.0vh;
             padding: 20px;
+        }
+        .result {
+            display: flex;
+            flex-direction: row;
+            height: 185px;
+            padding: 10px;
         }
         .film-title {
             font-weight: bold;
@@ -74,7 +85,27 @@
             height: 20px;
         }
         .result-poster {
-            height: 100%;
+            object-fit: contain;
+            width: 100px
+        }
+        /* width */
+        ::-webkit-scrollbar {
+        width: 10px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+        background: #f1f1f1; 
+        }
+        
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+        background: #888; 
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+        background: #555; 
         }
 
     </style>

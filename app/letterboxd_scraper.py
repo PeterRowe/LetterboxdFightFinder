@@ -121,6 +121,7 @@ class LetterboxdScraper():
         user_ratings = self._get_user_ratings(username=username)
         with Pool() as p:
             mutual_ratings = p.map(self._get_user_ratings, mutuals)
+            p.terminate()
         user_ratings=user_ratings.join(mutual_ratings, how='left')
         return user_ratings
     

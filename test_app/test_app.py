@@ -7,7 +7,7 @@ from expected_responses.expected_top_five_differences_endpoint_response import E
 client = TestClient(app)
 
 def test_get_top_five_differences_endpoint():
-    response = client.get("/top-five-differences", params={"username": "prowe"})
+    response = client.get("/top-five-mutuals-differences", params={"username": "prowe"})
     # This will break if someone posts a top five terrible take. 
     # Hopefully that's a rare occurrence.
     assert response.text == EXPECTED_TOP_FIVE_DIFFERENCES_ENDPOINT_RESPONSE

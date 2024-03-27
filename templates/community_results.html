@@ -1,7 +1,13 @@
 <!DOCTYPE html>
 
 <table class="result-category">
-    <tr>
+    <tbody style="width: 100%">
+    <tr><td>
+    <div style="font-style: italic;text-align: left;padding-left: 10px;">
+        How you disagreed with the Letterboxd community:
+    </div>
+    </td></tr>
+    <tr class="result-table-row">
         <td>
         <div class="result">
             <img class="result-poster" src={{ user_and_community_differences_poster_urls[0] }}>
@@ -17,7 +23,7 @@
         </td>
     </tr>
 
-    <tr>
+    <tr class="result-table-row">
         <td>
         <div class="result">
             <img class="result-poster" src={{ user_and_community_differences_poster_urls[1] }}>
@@ -33,7 +39,7 @@
         </td>
     </tr>
 
-    <tr>
+    <tr class="result-table-row">
         <td>
         <div class="result">
             <img class="result-poster" src={{ user_and_community_differences_poster_urls[2] }}>
@@ -49,7 +55,7 @@
         </td>
     </tr>
 
-    <tr>
+    <tr class="result-table-row">
         <td>
         <div class="result">
             <img class="result-poster" src={{ user_and_community_differences_poster_urls[3] }}>
@@ -65,7 +71,12 @@
         </td>
     </tr>
 
-    <tr>
+    <tr class="result-table-row"
+        hx-get="/top-five-community-differences/?username={{ username }}&page={{ page }}"
+        hx-trigger="intersect once"
+        hx-swap="afterend"
+        hx-target="closest tr"
+        hx-indicator="#new-community-reviews-spinner">
         <td>
         <div class="result">
             <img class="result-poster" src={{ user_and_community_differences_poster_urls[4] }}>
@@ -80,5 +91,8 @@
         </div>
         </td>
     </tr>
-
+    <tr class="result-table-row">
+        <td style="text-align: center;"><img id="new-community-reviews-spinner" class="htmx-indicator" src="static/oval.svg"></td>
+    </tr>
+    </tbody>
 </table>

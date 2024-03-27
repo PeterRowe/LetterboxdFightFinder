@@ -11,7 +11,7 @@ class RatingsAnalytics():
         Gets the differences between the ratings of the user in the first column in self.ratings_dataframe
         and the ratings of the users in subsequent columns. These differences are packaged into a series
         and orderd by the biggest difference to smallest
-        :returns: A pandas Dataframe with columns "Film", "Rating difference", "Mutual", "mMutual Rating", "User Rating"
+        :returns: A pandas Dataframe with columns "Film", "Rating difference", "Mutual", "Mutual Rating", "User Rating"
         """
         all_mutuals_differences = pd.DataFrame()
         all_mutuals_ratings = deepcopy(ratings_dataframe[ratings_dataframe.columns[1::]])

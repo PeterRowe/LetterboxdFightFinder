@@ -66,6 +66,9 @@
             overflow-x: hidden;
             align-items: flex-start;
         }
+        .result-category.htmx-swapping {
+            opacity: 0;
+        }
         .result-text {
             font-size: 2.0vh;
             padding: 20px;
@@ -128,7 +131,7 @@
                 <input style="width:130px;"
                     name="username"
                     placeholder="Username"
-                    hx-get="/top-five-mutuals-differences/"
+                    hx-get="/initial-mutual-and-community-differences/"
                     hx-trigger="keyup[keyCode==13]" 
                     hx-swap="outerHTML"
                     hx-indicator="#spinner"
@@ -137,12 +140,6 @@
                 </input>
                 <img id="spinner" class="htmx-indicator" src="static/oval.svg">
             </div>
-            <div
-                    hx-get="/top-five-community-differences/"
-                    hx-trigger="keyup[keyCode==13] from:input"
-                    hx-swap="outerHTML"
-                    >
-                </div>
             <footer>
                 This application uses TMDB and the TMDB APIs but is not endorsed, certified, or otherwise approved by TMDB.
             </footer>

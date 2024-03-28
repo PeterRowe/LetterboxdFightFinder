@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+
+<table class="result-category">
+    <tbody style="width: 100%">
+    <tr><td>
+        <div style="font-style: italic;text-align: left;padding-left: 10px;">
+            How you disagreed with your friends:
+        </div>
+    </td></tr>
+    <tr class="result-table-row">
+        <td>
+        <div class="result">
+            <img class="result-poster" src={{ user_and_mutual_differences_poster_urls[0] }}>
+            <div class="result-text">
+                <div class="film-title">
+                    {{ user_and_mutual_differences.iloc[0]["Film"].replace("-", " ").title() }}
+                </div>
+                <div>
+                    You gave it {{ user_and_mutual_differences.iloc[0]["User Rating"] }}. {{ user_and_mutual_differences.iloc[0]["Mutual"] }} gave it {{ user_and_mutual_differences.iloc[0]["Mutual Rating"] }}
+                </div>
+            </div>
+        </div>
+        </td>
+    </tr>
+
+    <tr class="result-table-row">
+        <td>
+        <div class="result">
+            <img class="result-poster" src={{ user_and_mutual_differences_poster_urls[1] }}>
+            <div class="result-text">
+                <div class="film-title">
+                    {{ user_and_mutual_differences.iloc[1]["Film"].replace("-", " ").title() }}
+                </div>
+                <div>
+                    You gave it {{ user_and_mutual_differences.iloc[1]["User Rating"] }}. {{ user_and_mutual_differences.iloc[1]["Mutual"] }} gave it {{ user_and_mutual_differences.iloc[1]["Mutual Rating"] }}
+                </div>
+            </div>
+        </div>
+        </td>
+
+    </tr>
+
+    <tr class="result-table-row">
+        <td>
+        <div class="result">
+            <img class="result-poster" src={{ user_and_mutual_differences_poster_urls[2] }}>
+            <div class="result-text">
+                <div class="film-title">
+                    {{ user_and_mutual_differences.iloc[2]["Film"].replace("-", " ").title() }}
+                </div>
+                <div>
+                    You gave it {{ user_and_mutual_differences.iloc[2]["User Rating"] }}. {{ user_and_mutual_differences.iloc[2]["Mutual"] }} gave it {{ user_and_mutual_differences.iloc[2]["Mutual Rating"] }}
+                </div>
+            </div>
+        </div>
+        </td>
+    </tr>
+
+    <tr class="result-table-row">
+        <td>
+        <div class="result">
+            <img class="result-poster" src={{ user_and_mutual_differences_poster_urls[3] }}>
+            <div class="result-text">
+                <div class="film-title">
+                    {{ user_and_mutual_differences.iloc[3]["Film"].replace("-", " ").title() }}
+                </div>
+                <div>
+                    You gave it {{ user_and_mutual_differences.iloc[3]["User Rating"] }}. {{ user_and_mutual_differences.iloc[3]["Mutual"] }} gave it {{ user_and_mutual_differences.iloc[3]["Mutual Rating"] }}
+                </div>
+            </div>
+        </div>
+        </td>
+    </tr>
+
+    <tr class="result-table-row"
+        hx-get="/additional-mutuals-differences/?username={{ username }}&page=1"
+        hx-trigger="intersect once"
+        hx-swap="afterend"
+        hx-target="closest tr"
+        hx-indicator="#new-mutuals-reviews-spinner">
+        <td>
+        <div class="result">
+            <img class="result-poster" src={{ user_and_mutual_differences_poster_urls[4] }}>
+            <div class="result-text">
+                <div class="film-title">
+                    {{ user_and_mutual_differences.iloc[4]["Film"].replace("-", " ").title() }}
+                </div>
+                <div>
+                    You gave it {{ user_and_mutual_differences.iloc[4]["User Rating"] }}. {{ user_and_mutual_differences.iloc[4]["Mutual"] }} gave it {{ user_and_mutual_differences.iloc[4]["Mutual Rating"] }}
+                </div>
+            </div>
+        </div>
+        </td>
+    </tr>
+    <tr class="result-table-row">
+        <td style="text-align: center;"><img id="new-mutuals-reviews-spinner" class="htmx-indicator" src="static/oval.svg"></td>
+    </tr>
+    </tbody>
+</table>
+
+<table class="result-category">
+    <tbody style="width: 100%">
+    <tr><td>
+    <div style="font-style: italic;text-align: left;padding-left: 10px;">
+        How you disagreed with the Letterboxd community:
+    </div>
+    </td></tr>
+    <tr class="result-table-row">
+        <td>
+        <div class="result">
+            <img class="result-poster" src={{ user_and_community_differences_poster_urls[0] }}>
+            <div class="result-text">
+                <div class="film-title">
+                    {{ user_and_community_differences.iloc[0]["Film"].replace("-", " ").title() }}
+                </div>
+                <div>
+                    You gave it {{ user_and_community_differences.iloc[0]["User Rating"] }}. The Letterboxd community gave it {{ user_and_community_differences.iloc[0]["Mutual Rating"] }}
+                </div>
+            </div>
+        </div>
+        </td>
+    </tr>
+
+    <tr class="result-table-row">
+        <td>
+        <div class="result">
+            <img class="result-poster" src={{ user_and_community_differences_poster_urls[1] }}>
+            <div class="result-text">
+                <div class="film-title">
+                    {{ user_and_community_differences.iloc[1]["Film"].replace("-", " ").title() }}
+                </div>
+                <div>
+                    You gave it {{ user_and_community_differences.iloc[1]["User Rating"] }}. The Letterboxd community gave it {{ user_and_community_differences.iloc[1]["Mutual Rating"] }}
+                </div>
+            </div>
+        </div>
+        </td>
+    </tr>
+
+    <tr class="result-table-row">
+        <td>
+        <div class="result">
+            <img class="result-poster" src={{ user_and_community_differences_poster_urls[2] }}>
+            <div class="result-text">
+                <div class="film-title">
+                    {{ user_and_community_differences.iloc[2]["Film"].replace("-", " ").title() }}
+                </div>
+                <div>
+                    You gave it {{ user_and_community_differences.iloc[2]["User Rating"] }}. The Letterboxd community gave it {{ user_and_community_differences.iloc[2]["Mutual Rating"] }}
+                </div>
+            </div>
+        </div>
+        </td>
+    </tr>
+
+    <tr class="result-table-row">
+        <td>
+        <div class="result">
+            <img class="result-poster" src={{ user_and_community_differences_poster_urls[3] }}>
+            <div class="result-text">
+                <div class="film-title">
+                    {{ user_and_community_differences.iloc[3]["Film"].replace("-", " ").title() }}
+                </div>
+                <div>
+                    You gave it {{ user_and_community_differences.iloc[3]["User Rating"] }}. The Letterboxd community gave it {{ user_and_community_differences.iloc[3]["Mutual Rating"] }}
+                </div>
+            </div>
+        </div>
+        </td>
+    </tr>
+
+    <tr class="result-table-row"
+        hx-get="/additional-community-differences/?username={{ username }}&page=1"
+        hx-trigger="intersect once"
+        hx-swap="afterend"
+        hx-target="closest tr"
+        hx-indicator="#new-community-reviews-spinner">
+        <td>
+        <div class="result">
+            <img class="result-poster" src={{ user_and_community_differences_poster_urls[4] }}>
+            <div class="result-text">
+                <div class="film-title">
+                    {{ user_and_community_differences.iloc[4]["Film"].replace("-", " ").title() }}
+                </div>
+                <div>
+                    You gave it {{ user_and_community_differences.iloc[4]["User Rating"] }}. The Letterboxd community gave it {{ user_and_community_differences.iloc[4]["Mutual Rating"] }}
+                </div>
+            </div>
+        </div>
+        </td>
+    </tr>
+    <tr class="result-table-row">
+        <td style="text-align: center;"><img id="new-community-reviews-spinner" class="htmx-indicator" src="static/oval.svg"></td>
+    </tr>
+    </tbody>
+</table>

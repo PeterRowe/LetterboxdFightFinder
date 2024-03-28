@@ -47,7 +47,7 @@
             left: 0; 
             width: 100%;
         }
-        .result {
+        .result-category {
             border-radius: 15px;
             background-color: #2c3440;
             text-align: left;
@@ -57,13 +57,34 @@
             padding: 20px;
             display: flex;
             align-items: center;
-            height: 10%;
-            width: 50%;
+            height: 40%;
+            width: 40%;
             min-width: 330px;
+            display: flex;
+            flex-direction: column;
+            overflow: scroll;
+            overflow-x: hidden;
+            align-items: flex-start;
+        }
+        .result-category.htmx-swapping {
+            opacity: 0;
         }
         .result-text {
             font-size: 2.0vh;
             padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .result {
+            display: flex;
+            flex-direction: row;
+            height: 150px;
+            padding: 10px;
+        }
+        .result-table-row {
+            width: 100%;
+            display: table;
         }
         .film-title {
             font-weight: bold;
@@ -74,7 +95,27 @@
             height: 20px;
         }
         .result-poster {
-            height: 100%;
+            object-fit: contain;
+            width: 100px
+        }
+        /* width */
+        ::-webkit-scrollbar {
+        width: 10px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+        background: #f1f1f1; 
+        }
+        
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+        background: #888; 
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+        background: #555; 
         }
 
     </style>
@@ -82,24 +123,26 @@
         <div class="header">
             <h1>Letterboxd Fight Finder</h1>
         </div>
-        <div style="height:100%;display:flex;flex-direction:column;align-items:center;">
+        <div 
+            style="height:100%;display:flex;flex-direction:column;align-items:center;"
+            hx-include="[name='username']"
+            >
             <div id="input-divs" style="display:flex;flex-direction:column;align-items:center;">
-            <input style="width:130px;"
-                name="username"
-                placeholder="Username"
-                hx-get="/top-five-differences/"
-                hx-include="[username='username']"
-                hx-trigger="keyup[keyCode==13]" 
-                hx-swap="outerHTML"
-                hx-indicator="#spinner"
-                hx-target="#input-divs"
-                >
-            </input>
-            <img id="spinner" class="htmx-indicator" src="static/oval.svg">
+                <input style="width:130px;"
+                    name="username"
+                    placeholder="Username"
+                    hx-get="/initial-mutual-and-community-differences/"
+                    hx-trigger="keyup[keyCode==13]" 
+                    hx-swap="outerHTML"
+                    hx-indicator="#spinner"
+                    hx-target="#input-divs"
+                    >
+                </input>
+                <img id="spinner" class="htmx-indicator" src="static/oval.svg">
+            </div>
             <footer>
                 This application uses TMDB and the TMDB APIs but is not endorsed, certified, or otherwise approved by TMDB.
             </footer>
-            </div>
         </div>
     </div>
 </body>

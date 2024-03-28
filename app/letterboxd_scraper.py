@@ -12,7 +12,7 @@ class LetterboxdScraper():
     Class for collecting methods that scrape data from Letterboxd
     """
     @cache
-    def _get_user_reviews(self, username: str) -> dict[str, float]:
+    def _get_user_ratings(self, username: str) -> pd.DataFrame:
         """
         Scrapes the film ratings from the inputted usernames pages on letterboxd
         :param username: The username of the letterboxd user you want to collect ratings from
@@ -29,13 +29,13 @@ class LetterboxdScraper():
             if len(page_ratings) == 0:
                 break
             for film_and_rating in page_ratings:
-                ratings[film_and_rating.contents[1]['data-film-slug']] = (
-                    float(film_and_rating.contents[3].contents[1]['class'][3].split('-')[1])/2
-                    if (len(film_and_rating.contents[3].contents) > 1 and
-                        film_and_rating.contents[3].contents[1]['class'][3].startswith('rated'))
-                        # If statement filters out films that are logged and neither liked or rated and
-                        # films that are liked but not rated
-                    else None
+                # If statement filters out films that are logged and neither liked or rated and
+                # films that are liked but not rated
+                if (len(film_and_rating.contents[3].contents) > 1 and
+                        film_and_rating.contents[3].contents[1]['class'][3].startswith('rated')):
+                    ratings[film_and_rating.contents[1]['data-film-slug']] = (
+                        float(film_and_rating.contents[3].contents[1]['class'][3].split('-')[1])/2
+                    
                 )
             
         ratings = pd.DataFrame.from_dict(data=ratings, orient='index', columns=[username])
@@ -75,12 +75,41 @@ class LetterboxdScraper():
                 break
             following = following + new_following
 
-        # The list of mutuals is sorted alphabetically for consistency. This ensures that if there are multiple reviews tied for fifth place
+        # The list of mutuals is sorted alphabetically for consistency. This ensures that if there are multiple ratings tied for fifth place
         # the same review is chosen every time.
         mutuals = sorted(list(set(followers) & set(following)))
         return mutuals
     
-    def get_user_and_mutuals_reviews(self, username: str) -> pd.DataFrame:
+    def _get_community_ratings(self, user_ratings: pd.DataFrame) -> pd.DataFrame:
+        """
+        Finds the average community rating for all of the films rated by the user. This method
+        is parallelised so must not be run as part of a parallel operation.
+        :param user_ratings: A pandas dataframe where the index are the film names and the values are the user rating
+        :returns: A pandas datafram with a single column named "Community". Indexes are the film names and the values
+                  are the community rating for that film."""
+        # Duplicate user ratings dataframe, ratings will be overwitten with community ratings
+        community_ratings = user_ratings.copy()
+        community_ratings = community_ratings.rename(columns={community_ratings.columns[0]: "Community"})
+        with Pool() as p:
+            community_ratings_dicts = p.map(self._get_community_rating_for_single_film, community_ratings.index)
+            p.terminate()
+        for film_and_community_rating in community_ratings_dicts:
+            film = list(film_and_community_rating)[0]
+            community_ratings.loc[film] = film_and_community_rating[film]
+        return community_ratings
+    
+    def _get_community_rating_for_single_film(self, film: str) -> dict[str, float]:
+        """
+        Gets the average community rating for a single film
+        :param film: The name of the film
+        :returns: The community rating for the inputted film in a dict with format {<film name>: <rating>}
+        """
+        response = urlopen(Request(headers=HEADERS, url=f'https://letterboxd.com/csi/film/{film}/rating-histogram')).read().decode("utf-8")
+        soup = BeautifulSoup(response)
+        rating = float(soup.find("span").text)
+        return {film: rating}
+    
+    def get_user_and_mutuals_ratings(self, username: str) -> pd.DataFrame:
         """
         Finds the username's ratings and places them in the left most column of the resulting dataframe. Mutuals
         ratings that have been rated by the user are then placed in subsequent columns under the column name 
@@ -89,9 +118,16 @@ class LetterboxdScraper():
         :returns: A dataframe containing the usernames ratings and mutuals ratings of those films
         """
         mutuals = self._get_user_mutuals(username=username)
-        user_ratings = self._get_user_reviews(username=username)
+        user_ratings = self._get_user_ratings(username=username)
         with Pool() as p:
-            mutual_ratings = p.map(self._get_user_reviews, mutuals)
+            mutual_ratings = p.map(self._get_user_ratings, mutuals)
+            p.terminate()
         user_ratings=user_ratings.join(mutual_ratings, how='left')
         return user_ratings
+    
+    def get_user_and_community_ratings(self, username: str) -> pd.DataFrame:
+        user_ratings = self._get_user_ratings(username=username)
+        community_ratings = self._get_community_ratings(user_ratings=user_ratings)
+        user_and_community_ratings = pd.concat([user_ratings, community_ratings], axis=1)
+        return user_and_community_ratings
 

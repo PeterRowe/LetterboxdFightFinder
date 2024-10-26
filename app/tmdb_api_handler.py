@@ -37,8 +37,12 @@ class TMDBAPIHandler:
         # Letterboxd and TMDB sometimes disagree on year, so they're curring cut off. This means sometimes the wrong
         # film might be selected if there are multiples of the same name, but this is a rarer occurance than disagreements.
         film_title_only = film[:-5] if film[-4:].isdigit() else film
-        search_response = json.loads(requests.get(TMDB_URL+"/search/movie", params={"query": film_title_only}, headers=HEADERS).text)
-        film_id = search_response["results"][0]['id']
-        poster_response = json.loads(requests.get(TMDB_URL+"/movie/"+str(film_id)+"/images", headers=HEADERS).text)
-        poster_url = "https://image.tmdb.org/t/p/original"+poster_response["posters"][0]["file_path"]
+        try:
+            search_response = json.loads(requests.get(TMDB_URL+"/search/movie", params={"query": film_title_only}, headers=HEADERS).text)
+            film_id = search_response["results"][0]['id']
+            poster_response = json.loads(requests.get(TMDB_URL+"/movie/"+str(film_id)+"/images", headers=HEADERS).text)
+            poster_url = "https://image.tmdb.org/t/p/original"+poster_response["posters"][0]["file_path"]
+        except:
+            # Just can't find the poster, oh well. I'll default to 'Junior' because I think it's funny
+            poster_url = "https://image.tmdb.org/t/p/w1280/eQmgPrXf7c7daRdl3Zwgm65lw3o.jpg"
         return {film: poster_url}
